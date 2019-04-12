@@ -4,7 +4,7 @@ import org.junit.*;
 import org.junit.rules.ExpectedException;
 
 import com.jmsilla.crmapitest.domain.exceptions.*;
-import com.jmsilla.crmapitest.utils.StringTestUtils;
+import com.jmsilla.crmapitest.domain.utils.StringTestUtils;
 
 public class CustomerCreationTest {
 	@Rule

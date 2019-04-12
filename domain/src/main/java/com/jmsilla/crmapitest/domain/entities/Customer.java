@@ -1,11 +1,13 @@
 package com.jmsilla.crmapitest.domain.entities;
 
 import com.jmsilla.crmapitest.domain.exceptions.*;
+import com.jmsilla.crmapitest.domain.valueobjects.Image;
 
 public class Customer {
 	private Integer id;
 	private String name;
 	private String surname;
+	private Image photo;
 	
 	private Customer() { }
 	
@@ -54,5 +56,25 @@ public class Customer {
 	
 	public String getSurname() {
 		return surname;
+	}
+	
+	public Image getPhoto() {
+		return photo;
+	}
+	
+	public void changeName(String name) {
+		validateName(name);
+		
+		this.name = name;
+	}
+	
+	public void changeSurname(String surname) {
+		validateSurname(surname);
+		
+		this.surname = surname;
+	}
+	
+	public void changePhoto(Image image) {
+		this.photo = image;
 	}
 }

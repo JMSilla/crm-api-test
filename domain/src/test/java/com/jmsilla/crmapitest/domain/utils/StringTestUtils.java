@@ -1,4 +1,4 @@
-package com.jmsilla.crmapitest.utils;
+package com.jmsilla.crmapitest.domain.utils;
 
 import java.util.stream.*;
 
