@@ -18,7 +18,8 @@ public class CustomerTest {
 	
 	@Before
 	public void setUp() {
-		customer = Customer.create(1, "name1", "surname1");
+		customer = Customer.create(1, "name1", "surname1",
+				UserTestUtils.testUser());
 	}
 	
 	@Test

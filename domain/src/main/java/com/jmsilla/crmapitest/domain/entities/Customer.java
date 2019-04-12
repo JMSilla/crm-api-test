@@ -8,19 +8,24 @@ public class Customer {
 	private String name;
 	private String surname;
 	private Image photo;
+	private String createdByUsername;
 	
 	private Customer() { }
 	
-	public static Customer create(Integer id, String name, String surname) {
+	public static Customer create(Integer id, String name, 
+			String surname, User createdByUser) 
+	{
 		validateId(id);
 		validateName(name);
 		validateSurname(surname);
+		validateCreatedByUser(createdByUser);
 		
 		Customer customer = new Customer();
 		
 		customer.id = id;
 		customer.name = name;
 		customer.surname = surname;
+		customer.createdByUsername = createdByUser.getName();
 		
 		return customer;
 	}
@@ -46,6 +51,11 @@ public class Customer {
 			throw new LengthExceededException("surname");
 	}
 	
+	private static void validateCreatedByUser(User createdByUser) {
+		if (createdByUser == null)
+			throw new RequiredFieldException("createdByUsername");
+	}
+	
 	public Integer getId() {
 		return id;
 	}
@@ -60,6 +70,10 @@ public class Customer {
 	
 	public Image getPhoto() {
 		return photo;
+	}
+	
+	public String getCreatedByUsername() {
+		return createdByUsername;
 	}
 	
 	public void changeName(String name) {
