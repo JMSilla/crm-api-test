@@ -8,6 +8,6 @@ public class UserTestUtils {
 	}
 	
 	public static User testUser(String username) {
-		return new User(username, false);
+		return User.createUser(1, username);
 	}
 }

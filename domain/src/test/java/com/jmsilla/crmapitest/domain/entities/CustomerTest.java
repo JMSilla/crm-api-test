@@ -32,7 +32,7 @@ public class CustomerTest {
 	@Test
 	public void customerNameCanNotBeNullWhenChanged() {
 		expectedEx.expect(RequiredFieldException.class);
-		expectedEx.expectMessage("name");
+		expectedEx.expectMessage(equalTo("name.requiredField"));
 		
 		customer.changeName(null, UserTestUtils.testUser());
 	}
@@ -40,7 +40,7 @@ public class CustomerTest {
 	@Test
 	public void customerNameCannotBeAnEmptyStringWhenChanged() {
 		expectedEx.expect(RequiredFieldException.class);
-		expectedEx.expectMessage("name");
+		expectedEx.expectMessage(equalTo("name.requiredField"));
 		
 		customer.changeName("  ", UserTestUtils.testUser());
 	}
@@ -48,7 +48,7 @@ public class CustomerTest {
 	@Test
 	public void customerNameMustNotExceedMaxLengthWhenChanged() {
 		expectedEx.expect(LengthExceededException.class);
-		expectedEx.expectMessage("name");
+		expectedEx.expectMessage(equalTo("name.lengthExceeded"));
 
 		customer.changeName(StringTestUtils.generateStringOfLength(40),
 				UserTestUtils.testUser());
@@ -64,7 +64,7 @@ public class CustomerTest {
 	@Test
 	public void customerSurnameCanNotBeNullWhenChanged() {
 		expectedEx.expect(RequiredFieldException.class);
-		expectedEx.expectMessage("surname");
+		expectedEx.expectMessage(equalTo("surname.requiredField"));
 		
 		customer.changeSurname(null, UserTestUtils.testUser());
 	}
@@ -72,7 +72,7 @@ public class CustomerTest {
 	@Test
 	public void customerSurnameCannotBeAnEmptyStringWhenChanged() {
 		expectedEx.expect(RequiredFieldException.class);
-		expectedEx.expectMessage("surname");
+		expectedEx.expectMessage(equalTo("surname.requiredField"));
 		
 		customer.changeSurname("\t", UserTestUtils.testUser());
 	}
@@ -80,7 +80,7 @@ public class CustomerTest {
 	@Test
 	public void customerSurnameMustNotExceedMaxLengthWhenChanged() {
 		expectedEx.expect(LengthExceededException.class);
-		expectedEx.expectMessage("surname");
+		expectedEx.expectMessage(equalTo("surname.lengthExceeded"));
 
 		customer.changeSurname(StringTestUtils.generateStringOfLength(40),
 				UserTestUtils.testUser());
@@ -98,7 +98,7 @@ public class CustomerTest {
 	@Test
 	public void modifierUserMustBeSetWhenChangingCustomerName() {
 		expectedEx.expect(RequiredFieldException.class);
-		expectedEx.expectMessage("modifiedByUsername");
+		expectedEx.expectMessage(equalTo("modifiedByUsername.requiredField"));
 		
 		customer.changeName("name", null);
 	}
@@ -106,7 +106,7 @@ public class CustomerTest {
 	@Test
 	public void modifierUserMustBeSetWhenChangingCustomerSurname() {
 		expectedEx.expect(RequiredFieldException.class);
-		expectedEx.expectMessage("modifiedByUsername");
+		expectedEx.expectMessage(equalTo("modifiedByUsername.requiredField"));
 		
 		customer.changeSurname("surname", null);
 	}
@@ -114,7 +114,7 @@ public class CustomerTest {
 	@Test
 	public void modifierUserMustBeSetWhenChangingCustomerPhoto() {
 		expectedEx.expect(RequiredFieldException.class);
-		expectedEx.expectMessage("modifiedByUsername");
+		expectedEx.expectMessage(equalTo("modifiedByUsername.requiredField"));
 		
 		customer.changeSurname("surname", null);
 	}

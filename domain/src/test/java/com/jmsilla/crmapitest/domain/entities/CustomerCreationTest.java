@@ -28,7 +28,7 @@ public class CustomerCreationTest {
 	@Test
 	public void customerShouldHaveAnId() {
 		expectedEx.expect(RequiredFieldException.class);
-		expectedEx.expectMessage("id");
+		expectedEx.expectMessage(equalTo("id.requiredField"));
 		
 		Customer.create(null, "name", "surname",
 				UserTestUtils.testUser());
@@ -37,7 +37,7 @@ public class CustomerCreationTest {
 	@Test
 	public void customerShouldHaveAnIdGreaterThan0() {
 		expectedEx.expect(RequiredFieldException.class);
-		expectedEx.expectMessage("id");
+		expectedEx.expectMessage(equalTo("id.requiredField"));
 		
 		Customer.create(-1, "name", "surname",
 				UserTestUtils.testUser());
@@ -46,7 +46,7 @@ public class CustomerCreationTest {
 	@Test
 	public void customerShouldHaveAName() {
 		expectedEx.expect(RequiredFieldException.class);
-		expectedEx.expectMessage("name");
+		expectedEx.expectMessage(equalTo("name.requiredField"));
 		
 		Customer.create(1, null, "surname",
 				UserTestUtils.testUser());
@@ -55,7 +55,7 @@ public class CustomerCreationTest {
 	@Test
 	public void customerNameCannotBeAnEmptyString() {
 		expectedEx.expect(RequiredFieldException.class);
-		expectedEx.expectMessage("name");
+		expectedEx.expectMessage(equalTo("name.requiredField"));
 		
 		Customer.create(1, "", "surname",
 				UserTestUtils.testUser());
@@ -64,7 +64,7 @@ public class CustomerCreationTest {
 	@Test
 	public void customerNameMustNotExceedMaxLength() {
 		expectedEx.expect(LengthExceededException.class);
-		expectedEx.expectMessage("name");
+		expectedEx.expectMessage(equalTo("name.lengthExceeded"));
 		
 		Customer.create(1, StringTestUtils.generateStringOfLength(31), 
 				"surname", UserTestUtils.testUser());
@@ -73,7 +73,7 @@ public class CustomerCreationTest {
 	@Test
 	public void customerShouldHaveASurname() {
 		expectedEx.expect(RequiredFieldException.class);
-		expectedEx.expectMessage("surname");
+		expectedEx.expectMessage(equalTo("surname.requiredField"));
 		
 		Customer.create(1, "name", null, UserTestUtils.testUser());
 	}
@@ -81,7 +81,7 @@ public class CustomerCreationTest {
 	@Test
 	public void customerSurnameCannotBeAnEmptyString() {
 		expectedEx.expect(RequiredFieldException.class);
-		expectedEx.expectMessage("surname");
+		expectedEx.expectMessage(equalTo("surname.requiredField"));
 		
 		Customer.create(1, "name", "", UserTestUtils.testUser());
 	}
@@ -89,7 +89,7 @@ public class CustomerCreationTest {
 	@Test
 	public void customerSurnameMustNotExceedMaxLength() {
 		expectedEx.expect(LengthExceededException.class);
-		expectedEx.expectMessage("surname");
+		expectedEx.expectMessage(equalTo("surname.lengthExceeded"));
 		
 		Customer.create(1, "name", 
 				StringTestUtils.generateStringOfLength(31),
@@ -99,7 +99,7 @@ public class CustomerCreationTest {
 	@Test
 	public void customerShouldHaveCreatedByUser() {
 		expectedEx.expect(RequiredFieldException.class);
-		expectedEx.expectMessage("createdByUsername");
+		expectedEx.expectMessage(equalTo("createdByUsername.requiredField"));
 		
 		Customer.create(1, "name", "surname", null);
 	}
