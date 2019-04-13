@@ -4,6 +4,10 @@ import com.jmsilla.crmapitest.domain.entities.User;
 
 public class UserTestUtils {
 	public static User testUser() {
-		return new User("user", false);
+		return testUser("name");
+	}
+	
+	public static User testUser(String username) {
+		return new User(username, false);
 	}
 }

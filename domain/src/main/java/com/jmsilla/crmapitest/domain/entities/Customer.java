@@ -9,6 +9,7 @@ public class Customer {
 	private String surname;
 	private Image photo;
 	private String createdByUsername;
+	private String modifiedByUsername;
 	
 	private Customer() { }
 	
@@ -18,7 +19,7 @@ public class Customer {
 		validateId(id);
 		validateName(name);
 		validateSurname(surname);
-		validateCreatedByUser(createdByUser);
+		validateUser(createdByUser, "createdByUsername");
 		
 		Customer customer = new Customer();
 		
@@ -51,9 +52,9 @@ public class Customer {
 			throw new LengthExceededException("surname");
 	}
 	
-	private static void validateCreatedByUser(User createdByUser) {
-		if (createdByUser == null)
-			throw new RequiredFieldException("createdByUsername");
+	private static void validateUser(User user, String fieldName) {
+		if (user == null)
+			throw new RequiredFieldException(fieldName);
 	}
 	
 	public Integer getId() {
@@ -76,19 +77,30 @@ public class Customer {
 		return createdByUsername;
 	}
 	
-	public void changeName(String name) {
+	public String getModifiedByUsername() {
+		return modifiedByUsername;
+	}
+	
+	public void changeName(String name, User modifiedByUser) {
 		validateName(name);
+		validateUser(modifiedByUser, "modifiedByUsername");
 		
 		this.name = name;
+		this.modifiedByUsername = modifiedByUser.getName();
 	}
 	
-	public void changeSurname(String surname) {
+	public void changeSurname(String surname, User modifiedByUser) {
 		validateSurname(surname);
+		validateUser(modifiedByUser, "modifiedByUsername");
 		
 		this.surname = surname;
+		this.modifiedByUsername = modifiedByUser.getName();
 	}
 	
-	public void changePhoto(Image image) {
+	public void changePhoto(Image image, User modifiedByUser) {
+		validateUser(modifiedByUser, "modifiedByUsername");
+		
 		this.photo = image;
+		this.modifiedByUsername = modifiedByUser.getName();
 	}
 }
