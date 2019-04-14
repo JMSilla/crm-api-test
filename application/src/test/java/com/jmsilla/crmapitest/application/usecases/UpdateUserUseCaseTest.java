@@ -9,7 +9,7 @@ import com.jmsilla.crmapitest.application.dtos.*;
 import com.jmsilla.crmapitest.domain.entities.User;
 import com.jmsilla.crmapitest.testrepositories.TestUserRepository;
 
-public class CreateUserUseCaseTest {
+public class UpdateUserUseCaseTest {
 	private TestUserRepository repository;
 	
 	@Before
@@ -20,16 +20,17 @@ public class CreateUserUseCaseTest {
 	}
 	
 	@Test
-	public void onlyAdminUsersCanCreateUsers() {
-		CreateUserRequest request = new CreateUserRequest();
+	public void onlyAdminUsersCanUpdateUsers() {
+		UpdateUserRequest request = new UpdateUserRequest();
 		
 		request.setRequestingUser("user");
+		request.setId(1);
 		request.setName("newuser");
 		request.setIsAdmin(false);
 		
-		CreateUserUseCase useCase = new CreateUserUseCase(repository);
+		UpdateUserUseCase useCase = new UpdateUserUseCase(repository);
 		
-		CreateUserResponse response = useCase.execute(request);
+		UpdateUserResponse response = useCase.execute(request);
 		
 		assertThat(response.hasError(), is(true));
 		assertThat(response.getErrorMessage(), 
@@ -46,15 +47,16 @@ public class CreateUserUseCaseTest {
 	
 	@Test
 	public void usernameMustBeUnique() {
-		CreateUserRequest request = new CreateUserRequest();
+		UpdateUserRequest request = new UpdateUserRequest();
 		
 		request.setRequestingUser("admin");
-		request.setName("user");
+		request.setId(2);
+		request.setName("admin");
 		request.setIsAdmin(false);
 		
-		CreateUserUseCase useCase = new CreateUserUseCase(repository);
+		UpdateUserUseCase useCase = new UpdateUserUseCase(repository);
 		
-		CreateUserResponse response = useCase.execute(request);
+		UpdateUserResponse response = useCase.execute(request);
 		
 		assertThat(response.hasError(), is(true));
 		assertThat(response.getErrorMessage(), 
@@ -62,36 +64,20 @@ public class CreateUserUseCaseTest {
 	}
 	
 	@Test
-	public void userMustBeCorrectlyCreated() {
-		CreateUserRequest request = new CreateUserRequest();
+	public void userMustBeCorrectlyUpdated() {
+		UpdateUserRequest request = new UpdateUserRequest();
 		
 		request.setRequestingUser("admin");
+		request.setId(2);
 		request.setName("newuser");
 		request.setIsAdmin(false);
 		
-		CreateUserUseCase useCase = new CreateUserUseCase(repository);
+		UpdateUserUseCase useCase = new UpdateUserUseCase(repository);
 		
-		CreateUserResponse response = useCase.execute(request);
-		
-		assertThat(response.hasError(), is(false));
-		assertThat(response.getCreatedUserId(), is(notNullValue()));
-		assertThat(repository.getLastCall(), is(equalTo("create(3)")));
-	}
-	
-	@Test
-	public void adminUserMustBeCorrectlyCreated() {
-		CreateUserRequest request = new CreateUserRequest();
-		
-		request.setRequestingUser("admin");
-		request.setName("newadminuser");
-		request.setIsAdmin(true);
-		
-		CreateUserUseCase useCase = new CreateUserUseCase(repository);
-		
-		CreateUserResponse response = useCase.execute(request);
+		UpdateUserResponse response = useCase.execute(request);
 		
 		assertThat(response.hasError(), is(false));
-		assertThat(response.getCreatedUserId(), is(notNullValue()));
-		assertThat(repository.getLastCall(), is(equalTo("create(3)")));
+		assertThat(response.getUpdatedUserId(), is(notNullValue()));
+		assertThat(repository.getLastCall(), is(equalTo("update(2)")));
 	}
 }

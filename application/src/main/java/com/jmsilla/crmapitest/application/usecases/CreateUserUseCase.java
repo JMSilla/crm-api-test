@@ -19,7 +19,7 @@ public class CreateUserUseCase {
 		
 		if (requestingUser == null || !requestingUser.isAdmin()) {
 			response.setError(true);
-			response.setErrorCode("error.authorization");
+			response.setErrorMessage("error.authorization");
 			return response;
 		}
 		
@@ -27,7 +27,7 @@ public class CreateUserUseCase {
 		
 		if (existingUser != null) {
 			response.setError(true);
-			response.setErrorCode("user.existsWithSameName");
+			response.setErrorMessage("user.existsWithSameName");
 			return response;
 		}
 		
@@ -44,7 +44,7 @@ public class CreateUserUseCase {
 		}
 		catch(DomainException ex) {
 			response.setError(true);
-			response.setErrorCode(ex.getMessage());
+			response.setErrorMessage(ex.getMessage());
 		}
 		
 		return response;

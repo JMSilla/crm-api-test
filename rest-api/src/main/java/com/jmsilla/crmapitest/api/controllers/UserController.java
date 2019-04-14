@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 
 import com.jmsilla.crmapitest.api.resources.UserResource;
 import com.jmsilla.crmapitest.domain.entities.User;
+import com.jmsilla.crmapitest.persistence.entitymanager.PostgreSQLEntityManagerFactory;
 import com.jmsilla.crmapitest.persistence.repositories.PostgreSQLUserRepository;
 
 @RestController
@@ -14,9 +15,15 @@ import com.jmsilla.crmapitest.persistence.repositories.PostgreSQLUserRepository;
 public class UserController {
 	@GetMapping
 	public List<UserResource> getAllUsers() {
-		PostgreSQLUserRepository repo = new PostgreSQLUserRepository();
+		PostgreSQLUserRepository repo = getRepository();
 		return repo.findAll().stream().map(UserController::map)
 				.collect(Collectors.toList());
+	}
+
+	private PostgreSQLUserRepository getRepository() {
+		return new PostgreSQLUserRepository(
+				PostgreSQLEntityManagerFactory.createEntityManagerFactory()
+				.createEntityManager());
 	}
 	
 	private static UserResource map(User user) {
@@ -30,14 +37,14 @@ public class UserController {
 	
 	@GetMapping("/{id}")
 	public UserResource getUser(@PathVariable Integer id) {
-		PostgreSQLUserRepository repo = new PostgreSQLUserRepository();
+		PostgreSQLUserRepository repo = getRepository();
 		
 		return map(repo.findById(id));
 	}
 	
 	@PostMapping
 	public UserResource createUser(@RequestBody UserResource user) {
-		PostgreSQLUserRepository repo = new PostgreSQLUserRepository();
+		PostgreSQLUserRepository repo = getRepository();
 		
 		Integer id = repo.getNextId();
 		

@@ -6,14 +6,12 @@ import javax.persistence.*;
 
 import com.jmsilla.crmapitest.domain.entities.User;
 import com.jmsilla.crmapitest.domain.repositories.UserRepository;
-import com.jmsilla.crmapitest.persistence.entitymanager.PostgreSQLEntityManagerFactory;
 
 public class PostgreSQLUserRepository implements UserRepository {
 	private EntityManager em;
 	
-	public PostgreSQLUserRepository() {
-		em = PostgreSQLEntityManagerFactory.createEntityManagerFactory()
-				.createEntityManager();
+	public PostgreSQLUserRepository(EntityManager em) {
+		this.em = em;
 	}
 
 	@Override

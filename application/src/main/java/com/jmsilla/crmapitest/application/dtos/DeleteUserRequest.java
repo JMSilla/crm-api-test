@@ -1,6 +1,6 @@
 package com.jmsilla.crmapitest.application.dtos;
 
-public class GetUserRequest extends BaseRequest {
+public class DeleteUserRequest extends BaseRequest {
 	private Integer userId;
 
 	public Integer getUserId() {

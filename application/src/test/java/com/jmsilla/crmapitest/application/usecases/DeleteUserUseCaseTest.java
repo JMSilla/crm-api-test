@@ -9,7 +9,7 @@ import com.jmsilla.crmapitest.application.dtos.*;
 import com.jmsilla.crmapitest.domain.entities.User;
 import com.jmsilla.crmapitest.testrepositories.TestUserRepository;
 
-public class GetUserUseCaseTest {
+public class DeleteUserUseCaseTest {
 	private TestUserRepository repository;
 	
 	@Before
@@ -20,15 +20,15 @@ public class GetUserUseCaseTest {
 	}
 	
 	@Test
-	public void onlyAdminUsersCanGetUsers() {
-		GetUserRequest request = new GetUserRequest();
+	public void onlyAdminUsersCanDeleteUsers() {
+		DeleteUserRequest request = new DeleteUserRequest();
 		
 		request.setRequestingUser("user");
 		request.setUserId(2);
 		
-		GetUserUseCase useCase = new GetUserUseCase(repository);
+		DeleteUserUseCase useCase = new DeleteUserUseCase(repository);
 		
-		GetUserResponse response = useCase.execute(request);
+		DeleteUserResponse response = useCase.execute(request);
 		
 		assertThat(response.hasError(), is(true));
 		assertThat(response.getErrorMessage(), 
@@ -45,14 +45,14 @@ public class GetUserUseCaseTest {
 	
 	@Test
 	public void mustReturnErrorWhenUserWithIdDoesntExist() {
-		GetUserRequest request = new GetUserRequest();
+		DeleteUserRequest request = new DeleteUserRequest();
 		
 		request.setRequestingUser("admin");
 		request.setUserId(3);
 		
-		GetUserUseCase useCase = new GetUserUseCase(repository);
+		DeleteUserUseCase useCase = new DeleteUserUseCase(repository);
 		
-		GetUserResponse response = useCase.execute(request);
+		DeleteUserResponse response = useCase.execute(request);
 		
 		assertThat(response.hasError(), is(true));
 		assertThat(response.getErrorMessage(), 
@@ -61,18 +61,17 @@ public class GetUserUseCaseTest {
 	
 	@Test
 	public void mustReturnIdAndNameWhenUserWithIdExist() {
-		GetUserRequest request = new GetUserRequest();
+		DeleteUserRequest request = new DeleteUserRequest();
 		
 		request.setRequestingUser("admin");
 		request.setUserId(2);
 		
-		GetUserUseCase useCase = new GetUserUseCase(repository);
+		DeleteUserUseCase useCase = new DeleteUserUseCase(repository);
 		
-		GetUserResponse response = useCase.execute(request);
+		DeleteUserResponse response = useCase.execute(request);
 		
 		assertThat(response.hasError(), is(false));
-		assertThat(response.getUserId(), is(equalTo(2)));
-		assertThat(response.getUserName(), is(equalTo("user")));
-		assertThat(repository.getLastCall(), is(equalTo("findById(2)")));
+		assertThat(response.getDeletedUserId(), is(equalTo(2)));
+		assertThat(repository.getLastCall(), is(equalTo("delete(2)")));
 	}
 }

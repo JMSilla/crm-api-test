@@ -1,26 +1,9 @@
 package com.jmsilla.crmapitest.application.dtos;
 
-public class GetUserResponse {
-	private Boolean error = false;
-	private String errorMessage;
+public class GetUserResponse extends BaseResponse {
 	private Integer userId;
 	private String userName;
-
-	public Boolean getError() {
-		return error;
-	}
-
-	public void setError(Boolean error) {
-		this.error = error;
-	}
-
-	public String getErrorMessage() {
-		return errorMessage;
-	}
-
-	public void setErrorMessage(String errorMessage) {
-		this.errorMessage = errorMessage;
-	}
+	private Boolean isAdmin;
 
 	public Integer getUserId() {
 		return userId;
@@ -36,5 +19,13 @@ public class GetUserResponse {
 
 	public void setUserName(String userName) {
 		this.userName = userName;
+	}
+
+	public Boolean getIsAdmin() {
+		return isAdmin;
+	}
+
+	public void setIsAdmin(Boolean isAdmin) {
+		this.isAdmin = isAdmin;
 	}
 }
