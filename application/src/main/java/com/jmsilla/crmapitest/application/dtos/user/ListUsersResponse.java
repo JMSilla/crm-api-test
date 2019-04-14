@@ -1,6 +1,8 @@
-package com.jmsilla.crmapitest.application.dtos;
+package com.jmsilla.crmapitest.application.dtos.user;
 
 import java.util.List;
+
+import com.jmsilla.crmapitest.application.dtos.BaseResponse;
 
 public class ListUsersResponse extends BaseResponse {
 	private List<GetUserResponse> users;

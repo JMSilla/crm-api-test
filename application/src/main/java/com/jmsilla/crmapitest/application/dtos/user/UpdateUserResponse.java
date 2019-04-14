@@ -1,4 +1,6 @@
-package com.jmsilla.crmapitest.application.dtos;
+package com.jmsilla.crmapitest.application.dtos.user;
+
+import com.jmsilla.crmapitest.application.dtos.BaseResponse;
 
 public class UpdateUserResponse extends BaseResponse {
 	private Integer updatedUserId;

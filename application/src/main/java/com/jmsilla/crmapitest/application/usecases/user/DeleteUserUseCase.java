@@ -1,20 +1,21 @@
-package com.jmsilla.crmapitest.application.usecases;
+package com.jmsilla.crmapitest.application.usecases.user;
 
-import com.jmsilla.crmapitest.application.dtos.*;
+import com.jmsilla.crmapitest.application.dtos.user.*;
 import com.jmsilla.crmapitest.domain.entities.User;
 import com.jmsilla.crmapitest.domain.repositories.UserRepository;
 
-public class GetUserUseCase {
+public class DeleteUserUseCase {
 	private UserRepository userRepository;
-
-	public GetUserUseCase(UserRepository userRepository) {
+	
+	public DeleteUserUseCase(UserRepository userRepository) {
 		this.userRepository = userRepository;
 	}
-	
-	public GetUserResponse execute(GetUserRequest request) {
-		GetUserResponse response = new GetUserResponse();
+
+	public DeleteUserResponse execute(DeleteUserRequest request) {
+		DeleteUserResponse response = new DeleteUserResponse();
 		
-		User requestingUser = userRepository.findByName(request.getRequestingUser());
+		User requestingUser = userRepository.findByName(
+				request.getRequestingUser());
 		
 		if (requestingUser == null || !requestingUser.isAdmin()) {
 			response.setError(true);
@@ -30,9 +31,11 @@ public class GetUserUseCase {
 			return response;
 		}
 		
-		response.setUserId(user.getId());
-		response.setUserName(user.getName());
+		userRepository.delete(user);
+		
+		response.setDeletedUserId(user.getId());
 		
 		return response;
 	}
+	
 }

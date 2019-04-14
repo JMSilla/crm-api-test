@@ -1,6 +1,6 @@
-package com.jmsilla.crmapitest.application.usecases;
+package com.jmsilla.crmapitest.application.usecases.user;
 
-import com.jmsilla.crmapitest.application.dtos.*;
+import com.jmsilla.crmapitest.application.dtos.user.*;
 import com.jmsilla.crmapitest.domain.entities.User;
 import com.jmsilla.crmapitest.domain.repositories.UserRepository;
 

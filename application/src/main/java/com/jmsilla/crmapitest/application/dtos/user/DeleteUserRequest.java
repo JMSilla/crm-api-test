@@ -1,4 +1,6 @@
-package com.jmsilla.crmapitest.application.dtos;
+package com.jmsilla.crmapitest.application.dtos.user;
+
+import com.jmsilla.crmapitest.application.dtos.BaseRequest;
 
 public class DeleteUserRequest extends BaseRequest {
 	private Integer userId;
