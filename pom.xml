@@ -13,6 +13,7 @@
 		<module>domain</module>
 		<module>application</module>
 		<module>rest-api</module>
+		<module>persistence</module>
 	</modules>
 	
 	<properties>

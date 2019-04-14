@@ -5,6 +5,8 @@ services:
     image: postgres:11.2
     restart: always
     env_file: .env
+    ports:
+      - ${POSTGRES_PORT}:5432
 
   app:
     build:

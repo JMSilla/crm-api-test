@@ -23,6 +23,11 @@
 			<version>2.1.4.RELEASE</version>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>com.jmsilla.crm-api-test</groupId>
+			<artifactId>persistence</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
 	</dependencies>
 
 	<properties>
@@ -35,12 +40,15 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+				<version>2.1.4.RELEASE</version>
+				
 				<executions>
 					<execution>
 						<goals>
 							<goal>repackage</goal>
 						</goals>
 						<configuration>
+							<layout>JAR</layout>
 							<classifier>spring-boot</classifier>
 							<mainClass>
 								com.jmsilla.crmapitest.api.CrmAPITestApplication
