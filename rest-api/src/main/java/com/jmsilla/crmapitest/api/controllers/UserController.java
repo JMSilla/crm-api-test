@@ -6,22 +6,48 @@ import java.util.stream.Collectors;
 import org.springframework.web.bind.annotation.*;
 
 import com.jmsilla.crmapitest.api.resources.UserResource;
-import com.jmsilla.crmapitest.domain.entities.User;
+import com.jmsilla.crmapitest.application.dtos.user.*;
+import com.jmsilla.crmapitest.application.usecases.user.*;
+import com.jmsilla.crmapitest.domain.entities.*;
 import com.jmsilla.crmapitest.persistence.entitymanager.PostgreSQLEntityManagerFactory;
-import com.jmsilla.crmapitest.persistence.repositories.PostgreSQLUserRepository;
+import com.jmsilla.crmapitest.persistence.repositories.*;
 
 @RestController
 @RequestMapping("/users")
 public class UserController {
 	@GetMapping
 	public List<UserResource> getAllUsers() {
-		PostgreSQLUserRepository repo = getRepository();
-		return repo.findAll().stream().map(UserController::map)
+		ListUsersUseCase useCase = new ListUsersUseCase(getRepository());
+		
+		ListUsersRequest request = new ListUsersRequest();
+		request.setRequestingUser("admin");
+		
+		ListUsersResponse response = useCase.execute(request);
+		
+		List<UserResource> resources = response.getUsers().stream()
+				.map(UserController::mapToUserResource)
 				.collect(Collectors.toList());
+		
+		return resources;
+	}
+
+	private static UserResource mapToUserResource(GetUserResponse u) {
+		UserResource resource = new UserResource();
+		
+		resource.setId(u.getUserId());
+		resource.setName(u.getUserName());
+		
+		return resource;
 	}
 
 	private PostgreSQLUserRepository getRepository() {
 		return new PostgreSQLUserRepository(
+				PostgreSQLEntityManagerFactory.createEntityManagerFactory()
+				.createEntityManager());
+	}
+	
+	private PostgreSQLCustomerRepository getCustomerRepository() {
+		return new PostgreSQLCustomerRepository(
 				PostgreSQLEntityManagerFactory.createEntityManagerFactory()
 				.createEntityManager());
 	}
@@ -37,9 +63,15 @@ public class UserController {
 	
 	@GetMapping("/{id}")
 	public UserResource getUser(@PathVariable Integer id) {
-		PostgreSQLUserRepository repo = getRepository();
+		GetUserUseCase useCase = new GetUserUseCase(getRepository());
 		
-		return map(repo.findById(id));
+		GetUserRequest request = new GetUserRequest();
+		request.setRequestingUser("admin");
+		request.setUserId(id);
+		
+		GetUserResponse response = useCase.execute(request);
+		
+		return mapToUserResource(response);
 	}
 	
 	@PostMapping
@@ -51,6 +83,11 @@ public class UserController {
 		User newUser = User.createUser(id, user.getName());
 		
 		repo.create(newUser);
+		
+		Customer customer = Customer.create(getCustomerRepository().getNextId(), 
+				"Hola", "surname", newUser);
+		
+		getCustomerRepository().create(customer);
 		
 		return map(newUser);
 	}

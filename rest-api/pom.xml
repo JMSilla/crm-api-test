@@ -28,6 +28,11 @@
 			<artifactId>persistence</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
+		<dependency>
+			<groupId>com.jmsilla.crm-api-test</groupId>
+			<artifactId>application</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
 	</dependencies>
 
 	<properties>

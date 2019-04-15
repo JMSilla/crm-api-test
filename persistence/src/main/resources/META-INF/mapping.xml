@@ -20,4 +20,20 @@ http://java.sun.com/xml/ns/persistence/orm_1_0.xsd"
 			<basic name="admin" optional="false" />
 		</attributes>
 	</entity>
+	
+	<entity class="Customer">
+		<table name="customer" schema="public" />
+		<attributes>
+			<id name="id"/>
+			<basic name="name" optional="false">
+				<column length="30" />
+			</basic>
+			<basic name="surname" optional="false">
+				<column length="30" />
+			</basic>
+			<basic name="createdByUserId">
+				<lob />				
+			</basic>
+		</attributes>
+	</entity>
 </entity-mappings>

@@ -1,11 +1,13 @@
 package com.jmsilla.crmapitest.persistence.repositories;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.persistence.*;
 
 import com.jmsilla.crmapitest.domain.entities.User;
 import com.jmsilla.crmapitest.domain.repositories.UserRepository;
+import com.jmsilla.crmapitest.persistence.entities.UserEntity;
 
 public class PostgreSQLUserRepository implements UserRepository {
 	private EntityManager em;
@@ -16,7 +18,8 @@ public class PostgreSQLUserRepository implements UserRepository {
 
 	@Override
 	public Integer getNextId() {
-		Query query = em.createQuery("select max(u.id) from User u");
+		Query query = em.createQuery("select max(u.id) from UserEntity u");
+		
 		try {
 			Integer result = (Integer) query.getSingleResult();
 			
@@ -33,13 +36,16 @@ public class PostgreSQLUserRepository implements UserRepository {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<User> findAll() {
-		Query query = em.createQuery("select u from User u");
-		return (List<User>)query.getResultList();
+		Query query = em.createQuery("select u from UserEntity u");
+		List<UserEntity> userEntities = (List<UserEntity>)query.getResultList();
+		
+		return userEntities.stream().map(Mappers::mapToUser)
+				.collect(Collectors.toList());
 	}
 
 	@Override
 	public User findById(Integer userId) {
-		return em.find(User.class, userId);
+		return Mappers.mapToUser(em.find(UserEntity.class, userId));
 	}
 
 	@Override
@@ -48,7 +54,9 @@ public class PostgreSQLUserRepository implements UserRepository {
 		
 		transaction.begin();
 		
-		em.persist(user);
+		UserEntity userEntity = Mappers.mapToUserEntity(user);
+		
+		em.persist(userEntity);
 		em.flush();
 		
 		transaction.commit();
@@ -56,20 +64,48 @@ public class PostgreSQLUserRepository implements UserRepository {
 
 	@Override
 	public void update(User user) {
-		// TODO Auto-generated method stub
-
+		EntityTransaction transaction = em.getTransaction();
+		
+		transaction.begin();
+		
+		UserEntity userEntity = Mappers.mapToUserEntity(user);
+		
+		em.merge(userEntity);
+		em.flush();
+		
+		transaction.commit();
 	}
 
 	@Override
 	public void delete(User user) {
-		// TODO Auto-generated method stub
-
+		EntityTransaction transaction = em.getTransaction();
+		
+		transaction.begin();
+		
+		UserEntity userEntity = Mappers.mapToUserEntity(user);
+		
+		em.remove(userEntity);
+		em.flush();
+		
+		transaction.commit();
 	}
 
 	@Override
 	public User findByName(String name) {
-		// TODO Auto-generated method stub
-		return null;
+		Query query = em.createQuery("select u from UserEntity u"
+				+ " where name = :name");
+		
+		query.setParameter("name", name);
+		
+		UserEntity userEntity;
+		
+		try {
+			userEntity = (UserEntity) query.getSingleResult();
+		}
+		catch(NoResultException nre) {
+			userEntity = null;
+		}
+		
+		return Mappers.mapToUser(userEntity);
 	}
-
 }
