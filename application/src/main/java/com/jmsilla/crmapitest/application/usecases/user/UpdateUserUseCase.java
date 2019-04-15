@@ -2,6 +2,7 @@ package com.jmsilla.crmapitest.application.usecases.user;
 
 import com.jmsilla.crmapitest.application.dtos.user.*;
 import com.jmsilla.crmapitest.domain.entities.User;
+import com.jmsilla.crmapitest.domain.exceptions.DomainException;
 import com.jmsilla.crmapitest.domain.repositories.UserRepository;
 
 public class UpdateUserUseCase {
@@ -31,16 +32,22 @@ public class UpdateUserUseCase {
 			return response;
 		}
 		
-		user.changeName(request.getName());
-		
-		user.setAsNormalUser();
-		
-		if (request.getIsAdmin())
-			user.setAsAdmin();
-		
-		userRepository.update(user);
-		
-		response.setUpdatedUserId(user.getId());
+		try {
+			user.changeName(request.getName());
+			
+			user.setAsNormalUser();
+			
+			if (request.getIsAdmin())
+				user.setAsAdmin();
+			
+			userRepository.update(user);
+			
+			response.setUpdatedUserId(user.getId());
+		}
+		catch(DomainException ex) {
+			response.setError(true);
+			response.setErrorMessage(ex.getMessage());
+		}
 		
 		return response;
 	}
