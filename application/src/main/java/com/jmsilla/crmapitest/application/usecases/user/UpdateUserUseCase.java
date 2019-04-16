@@ -24,6 +24,13 @@ public class UpdateUserUseCase {
 		}
 		
 		User user = userRepository.findById(request.getId());
+		
+		if (user == null) {
+			response.setError(true);
+			response.setErrorMessage("user.doesntExists");
+			return response;
+		}
+		
 		User userWithSameName = userRepository.findByName(request.getName());
 		
 		if (existsDifferentUserWithSameName(user, userWithSameName)) {
@@ -33,16 +40,21 @@ public class UpdateUserUseCase {
 		}
 		
 		try {
-			user.changeName(request.getName());
+			if (request.getName() != null)
+				user.changeName(request.getName());
 			
-			user.setAsNormalUser();
-			
-			if (request.getIsAdmin())
-				user.setAsAdmin();
+			if (request.getIsAdmin() != null) {
+				user.setAsNormalUser();
+				
+				if (request.getIsAdmin())
+					user.setAsAdmin();
+			}
 			
 			userRepository.update(user);
 			
 			response.setUpdatedUserId(user.getId());
+			response.setName(user.getName());
+			response.setAdmin(user.isAdmin());
 		}
 		catch(DomainException ex) {
 			response.setError(true);

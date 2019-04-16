@@ -35,7 +35,9 @@ public class CreateUserUseCase {
 			User newUser = User.createUser(userRepository.getNextId(), 
 					request.getName());
 			
-			if (request.getIsAdmin())
+			newUser.setAsNormalUser();
+			
+			if (request.getIsAdmin() != null && request.getIsAdmin())
 				newUser.setAsAdmin();
 			
 			userRepository.create(newUser);

@@ -1,16 +1,8 @@
 package com.jmsilla.crmapitest.api.resources;
 
 public class UserResource {
-	private Integer id;
 	private String name;
-
-	public Integer getId() {
-		return id;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
-	}
+	private Boolean admin;
 
 	public String getName() {
 		return name;
@@ -18,5 +10,13 @@ public class UserResource {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public Boolean getAdmin() {
+		return admin;
+	}
+
+	public void setAdmin(Boolean admin) {
+		this.admin = admin;
 	}
 }

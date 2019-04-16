@@ -32,6 +32,7 @@ public class GetUserUseCase {
 		
 		response.setUserId(user.getId());
 		response.setUserName(user.getName());
+		response.setIsAdmin(user.isAdmin());
 		
 		return response;
 	}

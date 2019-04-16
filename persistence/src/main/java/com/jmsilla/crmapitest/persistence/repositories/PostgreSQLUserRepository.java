@@ -82,7 +82,7 @@ public class PostgreSQLUserRepository implements UserRepository {
 		
 		transaction.begin();
 		
-		UserEntity userEntity = Mappers.mapToUserEntity(user);
+		UserEntity userEntity = em.find(UserEntity.class, user.getId());
 		
 		em.remove(userEntity);
 		em.flush();
