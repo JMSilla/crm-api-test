@@ -1,5 +1,3 @@
 oauth:
-  clientId: 
-  clientSecret: 
   checkTokenUrl: https://www.googleapis.com/oauth2/v3/tokeninfo?access_token={accessToken}
   userInfoUrl: https://www.googleapis.com/oauth2/v3/userinfo

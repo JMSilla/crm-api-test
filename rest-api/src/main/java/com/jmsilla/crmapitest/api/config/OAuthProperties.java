@@ -3,9 +3,7 @@ package com.jmsilla.crmapitest.api.config;
 import org.springframework.beans.factory.annotation.Value;
 
 public class OAuthProperties {
-    @Value("${oauth.clientId}")
     private String clientId;
-    @Value("${oauth.clientSecret}")
     private String clientSecret;
     @Value("${oauth.checkTokenUrl}")
     private String checkTokenUrl;
@@ -27,4 +25,12 @@ public class OAuthProperties {
     public String getUserInfoUrl() {
         return userInfoUrl;
     }
+
+	public void setClientId(String clientId) {
+		this.clientId = clientId;
+	}
+
+	public void setClientSecret(String clientSecret) {
+		this.clientSecret = clientSecret;
+	}
 }

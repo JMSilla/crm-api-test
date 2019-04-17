@@ -13,13 +13,17 @@ public class Config {
     public PropertySourcesPlaceholderConfigurer propertyPlaceholderConfigurer() {
         YamlPropertiesFactoryBean yaml = new YamlPropertiesFactoryBean();
         yaml.setResources(new ClassPathResource("app.yml"));
-        PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer = new PropertySourcesPlaceholderConfigurer();
+        PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer = 
+        		new PropertySourcesPlaceholderConfigurer();
         propertySourcesPlaceholderConfigurer.setProperties(yaml.getObject());
         return propertySourcesPlaceholderConfigurer;
     }
 
     @Bean
     public OAuthProperties oAuthProperties() {
-        return new OAuthProperties();
+        OAuthProperties oauthProperties = new OAuthProperties();
+        oauthProperties.setClientId(System.getenv("GOOGLE_CLIENT_ID"));
+        oauthProperties.setClientSecret(System.getenv("GOOGLE_CLIENT_SECRET"));
+		return oauthProperties;
     }
 }
