@@ -1,5 +1,6 @@
 package com.jmsilla.crmapitest.api.controllers;
 
+import java.security.Principal;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -17,11 +18,11 @@ import com.jmsilla.crmapitest.persistence.repositories.PostgreSQLUserRepository;
 @RequestMapping(value = "/users", headers = "Accept=application/json")
 public class UserController {
 	@GetMapping
-	public ResponseEntity<Object> getAllUsers() {
+	public ResponseEntity<Object> getAllUsers(Principal principal) {
 		ListUsersUseCase useCase = new ListUsersUseCase(getRepository());
 		
 		ListUsersRequest request = new ListUsersRequest();
-		request.setRequestingUser("pepe");
+		request.setRequestingUser(principal.getName());
 		
 		ListUsersResponse response = useCase.execute(request);
 		
@@ -44,12 +45,12 @@ public class UserController {
 	}
 	
 	@GetMapping("/{id}")
-	public ResponseEntity<Object> getUser(@PathVariable Integer id) {
+	public ResponseEntity<Object> getUser(Principal principal, @PathVariable Integer id) {
 		GetUserUseCase useCase = new GetUserUseCase(getRepository());
 		
 		GetUserRequest request = new GetUserRequest();
 		
-		request.setRequestingUser("admin");
+		request.setRequestingUser(principal.getName());
 		request.setUserId(id);
 		
 		GetUserResponse response = useCase.execute(request);
@@ -64,14 +65,14 @@ public class UserController {
 	}
 	
 	@PostMapping
-	public ResponseEntity<Object> createUser(
+	public ResponseEntity<Object> createUser(Principal principal, 
 			@RequestBody UserResource createUserResource) 
 	{
 		CreateUserUseCase useCase = new CreateUserUseCase(getRepository());
 
 		CreateUserRequest request = new CreateUserRequest();
 		
-		request.setRequestingUser("admin");
+		request.setRequestingUser(principal.getName());
 		request.setName(createUserResource.getName());
 		request.setIsAdmin(createUserResource.getAdmin());
 
@@ -87,14 +88,15 @@ public class UserController {
 	}
 	
 	@PutMapping("/{id}")
-	public ResponseEntity<Object> updateUser(@PathVariable Integer id,
+	public ResponseEntity<Object> updateUser(Principal principal, 
+			@PathVariable Integer id,
 			@RequestBody UserResource updateUserResource)
 	{
 		UpdateUserUseCase useCase = new UpdateUserUseCase(getRepository());
 
 		UpdateUserRequest request = new UpdateUserRequest();
 		
-		request.setRequestingUser("admin");
+		request.setRequestingUser(principal.getName());
 		request.setId(id);
 		request.setName(updateUserResource.getName());
 		request.setIsAdmin(updateUserResource.getAdmin());
@@ -112,11 +114,13 @@ public class UserController {
 	}
 	
 	@DeleteMapping("/{id}")
-	public ResponseEntity<Object> deleteUser(@PathVariable Integer id) {
+	public ResponseEntity<Object> deleteUser(Principal principal,
+			@PathVariable Integer id) 
+	{
 		DeleteUserUseCase useCase = new DeleteUserUseCase(getRepository());
 		DeleteUserRequest request = new DeleteUserRequest();
 		
-		request.setRequestingUser("admin");
+		request.setRequestingUser(principal.getName());
 		request.setUserId(id);
 		
 		DeleteUserResponse response = useCase.execute(request);
