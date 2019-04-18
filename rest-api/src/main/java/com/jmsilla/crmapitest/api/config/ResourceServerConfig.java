@@ -21,7 +21,9 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
     @Override
     public void configure(final HttpSecurity http) throws Exception {
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+        http.authorizeRequests().antMatchers("/callback").permitAll();
         http.authorizeRequests().anyRequest().hasRole("USER");
+        http.exceptionHandling().authenticationEntryPoint(new AuthExceptionEntryPoint());
     }
 
     @Override
