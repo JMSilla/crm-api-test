@@ -30,12 +30,17 @@ public class UpdateCustomerUseCase {
 		User modifyingUser = userRepository.findByName(request.getRequestingUser());
 
 		try {
-			customer.changeName(request.getName(), modifyingUser);
-			customer.changeSurname(request.getSurname(), modifyingUser);
+			if (request.getName() != null)
+				customer.changeName(request.getName(), modifyingUser);
+			
+			if (request.getSurname() != null)
+				customer.changeSurname(request.getSurname(), modifyingUser);
 			
 			customerRepository.update(customer);
 			
 			response.setUpdatedCustomerId(customer.getId());
+			response.setName(customer.getName());
+			response.setSurname(customer.getSurname());
 		}
 		catch(DomainException dex) {
 			response.setError(true);

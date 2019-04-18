@@ -113,7 +113,8 @@ public class PostgreSQLCustomerRepository implements CustomerRepository {
 		
 		transaction.begin();
 		
-		CustomerEntity customerEntity = mapToCustomerEntity(customer);
+		CustomerEntity customerEntity = em.find(CustomerEntity.class, 
+				customer.getId());
 		
 		em.remove(customerEntity);
 		em.flush();
