@@ -1,5 +1,6 @@
 package com.jmsilla.crmapitest.api.controllers;
 
+import java.security.Principal;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -54,7 +55,7 @@ public class CustomerController {
 	}
 	
 	@PostMapping
-	public ResponseEntity<Object> createCustomer(
+	public ResponseEntity<Object> createCustomer(Principal principal,
 			@RequestBody CustomerResource createCustomerResource) 
 	{
 		CreateCustomerUseCase useCase = new CreateCustomerUseCase(
@@ -63,7 +64,7 @@ public class CustomerController {
 
 		CreateCustomerRequest request = new CreateCustomerRequest();
 		
-		request.setRequestingUser("admin");
+		request.setRequestingUser(principal.getName());
 		request.setName(createCustomerResource.getName());
 		request.setSurname(createCustomerResource.getSurname());
 
@@ -79,7 +80,8 @@ public class CustomerController {
 	}
 	
 	@PutMapping("/{id}")
-	public ResponseEntity<Object> updateCustomer(@PathVariable Integer id,
+	public ResponseEntity<Object> updateCustomer(Principal principal, 
+			@PathVariable Integer id,
 			@RequestBody CustomerResource updateCustomerResource)
 	{
 		UpdateCustomerUseCase useCase = new UpdateCustomerUseCase(
@@ -88,7 +90,7 @@ public class CustomerController {
 
 		UpdateCustomerRequest request = new UpdateCustomerRequest();
 		
-		request.setRequestingUser("admin");
+		request.setRequestingUser(principal.getName());
 		request.setId(id);
 		request.setName(updateCustomerResource.getName());
 		request.setSurname(updateCustomerResource.getSurname());

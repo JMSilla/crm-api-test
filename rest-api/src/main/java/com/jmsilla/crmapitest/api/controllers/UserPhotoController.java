@@ -1,6 +1,7 @@
 package com.jmsilla.crmapitest.api.controllers;
 
 import java.io.IOException;
+import java.security.Principal;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -16,7 +17,8 @@ import com.jmsilla.crmapitest.application.usecases.customer.*;
 @RequestMapping(value = "/customers", headers = "Accept=application/json")
 public class UserPhotoController {
 	@PostMapping("/{id}/photo")
-    public ResponseEntity<Object> uploadFile(@PathVariable Integer id,
+    public ResponseEntity<Object> uploadFile(Principal principal,
+    		@PathVariable Integer id,
     		@RequestPart MultipartFile file) throws IOException 
 	{
 		ChangeCustomerPhotoUseCase useCase = new ChangeCustomerPhotoUseCase(
@@ -24,7 +26,7 @@ public class UserPhotoController {
 				RepositoryFactory.getCustomerRepository());
 		ChangeCustomerPhotoRequest request = new ChangeCustomerPhotoRequest();
 		
-		request.setRequestingUser("admin");
+		request.setRequestingUser(principal.getName());
 		request.setCustomerId(id);
 		request.setMimeType(file.getContentType());
 		request.setPhotoContent(file.getBytes());
@@ -40,15 +42,15 @@ public class UserPhotoController {
     }
 	
 	@GetMapping("/{id}/photo")
-	public void downloadFile(@PathVariable Integer id, HttpServletResponse httpResponse) 
-			throws IOException 
+	public void downloadFile(Principal principal,@PathVariable Integer id, 
+			HttpServletResponse httpResponse) throws IOException 
 	{
 		GetCustomerPhotoUseCase useCase = new GetCustomerPhotoUseCase(
 				RepositoryFactory.getCustomerRepository());
 		
 		GetCustomerPhotoRequest request = new GetCustomerPhotoRequest();
 		
-		request.setRequestingUser("admin");
+		request.setRequestingUser(principal.getName());
 		request.setCustomerId(id);
 		
 		GetCustomerPhotoResponse response = useCase.execute(request);
