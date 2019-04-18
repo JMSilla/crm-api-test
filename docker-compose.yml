@@ -5,6 +5,9 @@ services:
     image: postgres:11.2
     restart: always
     env_file: .env
+    volumes:
+      - ./docker/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./docker/useradmin.sh:/docker-entrypoint-initdb.d/useradmin.sh
     ports:
       - ${POSTGRES_PORT}:5432
 

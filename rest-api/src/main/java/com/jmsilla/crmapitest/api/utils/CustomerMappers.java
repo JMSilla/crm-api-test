@@ -26,6 +26,7 @@ public class CustomerMappers {
 		resource.setSurname(response.getSurname());
 		resource.setCreatedBy(response.getCreatedByUsername());
 		resource.setUpdatedBy(response.getModifiedByUsername());
+		
 		resource.setPhotoUrl(System.getenv("SERVER_SERVLET_CONTEXT_PATH")
 				+ "/customers/" + response.getId() + "/photo");
 		
