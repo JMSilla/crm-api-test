@@ -9,12 +9,16 @@ import org.springframework.http.*;
 import com.jmsilla.crmapitest.api.resources.ErrorResponse;
 
 public class ErrorResponseUtils {
+	public static Boolean isAuthorizationError(String errorMessage) {
+		return errorMessage != null && errorMessage.equals("error.authorization");
+	}
+	
 	public static ResponseEntity<Object> createErrorResponse(
 			String errorMessage, Object... args)
 	{
 		HttpStatus status = HttpStatus.BAD_REQUEST;
 		
-		if (errorMessage.equals("error.authorization"))
+		if (isAuthorizationError(errorMessage))
 			status = HttpStatus.UNAUTHORIZED;
 		
 		return createErrorResponse(status, errorMessage, args);
